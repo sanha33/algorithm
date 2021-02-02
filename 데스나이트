@@ -1,0 +1,51 @@
+#include <iostream>
+#include <queue>
+#include <cstring>
+using namespace std;
+
+const int dy[6]={-2,-2,0,2,2};
+const int dx[6]={-1,1,-2,2,-1,1};
+int d[201][201];
+
+int main(){
+
+  int n;
+  int sy,sx,ey,ex;
+
+  cin>>n;
+  cin>>sy>>sx>>ey>>ex;
+
+  memset(d,-1,sizeof(d));
+
+  queue<pair<int,int>> q;
+  q.push({sy,sx});
+  d[sy][sx]=0;
+  
+  while(!q.empty()){
+
+    int y=q.front().first;
+    int x=q.front().second;
+    q.pop();
+
+    for(int i=0;i<6;i++){
+      
+      int my=y+dy[i];
+      int mx=x+dx[i];
+
+      if(!(0<=my && my<n && 0<=mx && mx<n)) continue;
+
+      if(d[my][mx]==-1){
+        d[my][mx] = d[y][x] + 1;
+        q.push({my,mx});
+      }
+    }
+  }
+
+  if(d[ey][ex]==-1){
+    cout<<-1;
+
+  }else{
+    cout<<d[ey][ex];
+  }
+  return 0;
+}

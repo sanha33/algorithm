@@ -1,0 +1,128 @@
+#include <iostream>
+#include <queue>
+#include <cstring>
+using namespace std;
+
+const int dy[4]={0,1,0,-1};
+const int dx[4]={-1,0,1,0};
+int d[251][251];
+char a[251][251];
+
+int main(){
+  int R,C;
+  int tempv=0;
+  int tempk=0;
+
+  int sumv=0;
+  int sumk=0;
+
+  cin>>R>>C;
+  memset(d,-1,sizeof(d));
+
+  for(int i=0;i<R;i++){
+
+    for(int j=0;j<C;j++){
+
+      cin>>a[i][j];
+
+      if(a[i][j]=='#'){
+        d[i][j]=0;
+      }
+    }
+  }
+
+
+/*
+  for(int i=0;i<R;i++){
+    for(int j=0;j<C;j++){
+      cout<<d[i][j];
+    }
+    cout<<endl;
+  }
+  */
+
+  queue<pair<int,int>> q; 
+
+  for(int i=0;i<R;i++){
+    for(int j=0;j<C;j++){
+          
+      if(d[i][j]==-1){
+
+        q.push({i,j});
+         d[i][j]=0;
+
+      tempv=0;
+      tempk=0;
+
+            if(a[i][j]=='v'){
+              tempv++;
+           //   cout<<"V!"<<"tempv="<<tempv<<endl;
+            }else if(a[i][j]=='k'){
+              tempk++;
+           //   cout<<"K!"<<"tempk="<<tempk<<endl;
+            }
+
+/*
+          cout<<"------------------------------"<<endl; 
+                for(int l=0;l<R;l++){
+              for(int o=0;o<C;o++){
+                cout<<d[l][o];
+              }
+              cout<<endl;
+            }
+*/
+
+        while(!q.empty()){
+
+        int y=q.front().first;
+        int x=q.front().second;
+
+        q.pop();            
+
+        for(int k=0;k<4;k++){
+
+          int my=y+dy[k];
+          int mx=x+dx[k];
+        
+          if(!(0<=my && my<R && 0<=mx && mx<C))continue;      
+
+          if(d[my][mx]==-1){
+            
+          //  cout<<my<<" "<<mx<<" "<<a[my][mx];
+
+             d[my][mx] =0;
+            q.push({my,mx});
+/*
+            cout<<"------------------------------"<<endl; 
+                for(int l=0;l<R;l++){
+              for(int o=0;o<C;o++){
+                cout<<d[l][o];
+              }
+              cout<<endl;
+            }
+*/
+
+            if(a[my][mx]=='v'){
+              tempv++;
+      //        cout<<"V2!"<<"tempv="<<tempv<<endl;
+            }else if(a[my][mx]=='k'){
+              tempk++;
+       //       cout<<"K2!"<<"tempk="<<tempk<<endl;
+            }         
+          }
+        }
+      }
+        
+        if(tempv>=tempk){          
+          sumv=sumv+tempv;
+        }else{
+          sumk=sumk+tempk;
+       }
+     
+    }
+    }
+  }
+
+  cout<<sumk<<" "<<sumv;  
+
+}
